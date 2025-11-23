@@ -1,0 +1,95 @@
+/*
+ * Caricature (p5.js)
+ * - Exact 600x400 PNG export (handles HiDPI & download blocks)
+ */
+
+let savedOnce = false;
+
+function setup() {
+  pixelDensity(1);
+  createCanvas(600, 400);
+  noLoop();
+
+  const btn = createButton('PNG 저장');
+  btn.mousePressed(() => saveCanvas('caricature_600x400', 'png'));
+
+  setTimeout(() => {
+    if (!savedOnce) {
+      savedOnce = true;
+      saveCanvas('caricature_600x400', 'png');
+    }
+  }, 100);
+}
+
+function keyPressed(){
+  if (key === 's' || key === 'S') saveCanvas('caricature_600x400', 'png');
+}
+
+function draw() {
+  background(230);
+
+  const SKIN  = color(255, 220, 190);
+  const HAIR  = color(80, 50, 35);
+  const LIP   = color(205, 60, 95);
+  const BLUSH = color(255, 150, 150, 190);
+  const SHIRT = color(160, 55, 55);
+  const GOLD  = color(230, 190, 60);
+
+  translate(width / 2, height / 2 + 22);
+  noStroke();
+
+  fill(HAIR);
+  ellipse(0, 15, 280, 350);
+
+  const EAR_X = 86, EAR_Y = -6, EAR_W = 26, EAR_H = 36;
+  fill(SKIN);
+  ellipse(-EAR_X, EAR_Y, EAR_W, EAR_H);
+  ellipse( EAR_X, EAR_Y, EAR_W, EAR_H);
+
+  const LOBE_Y = EAR_Y + EAR_H / 2 + 6;
+  fill(GOLD);
+  circle(-EAR_X, LOBE_Y, 10);
+  circle( EAR_X, LOBE_Y, 10);
+
+  fill(SKIN);
+  ellipse(0, -6, 165, 205);
+
+  const NECK_W = 40, NECK_H = 40;
+  rect(-NECK_W / 2, 85, NECK_W, NECK_H, 10);
+
+  fill(SHIRT);
+  rect(-110, 115, 220, 70, 30);
+
+  noFill(); stroke(30); strokeWeight(4);
+  arc(-38, -52, 50, 18, PI + 0.3, TWO_PI - 0.3);
+  arc( 38, -52, 50, 18, PI + 0.3, TWO_PI - 0.3);
+
+  noStroke(); fill(255);
+  ellipse(-38, -30, 40, 26);
+  ellipse( 38, -30, 40, 26);
+
+  fill(0);
+  ellipse(-38, -30, 20, 20);
+  ellipse( 38, -30, 20, 20);
+  fill(255);
+  ellipse(-30, -36, 7, 7);
+  ellipse(46, -36, 7, 7);
+
+  stroke(0); strokeWeight(2);
+  line(-48, -38, -56, -48);
+  line(-38, -40, -38, -50);
+  line(-28, -38, -20, -48);
+  line( 28, -38,  20,-48);
+  line( 38, -40,  38,-50);
+  line( 48, -38,  56,-48);
+
+  stroke(125); strokeWeight(2);
+  line(0, -10, 0, 16);
+
+  noStroke(); fill(LIP);
+  arc(0, 46, 60, 26, 0, PI, CHORD);
+
+  fill(BLUSH);
+  ellipse(-60, 4, 20, 14);
+  ellipse( 60, 4, 20, 14);
+}
